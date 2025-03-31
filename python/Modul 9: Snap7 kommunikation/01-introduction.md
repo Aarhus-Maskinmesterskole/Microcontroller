@@ -5,6 +5,7 @@ En **PLC (Programmable Logic Controller)** er en industriel computer, der bruges
 
 ### **Hvorfor bruge Python til at kommunikere med en PLC?**
 Python giver os mulighed for at:
+
 ✔️ Læse og skrive data fra en PLC  
 ✔️ Automatisere tests og overvågning af processer  
 ✔️ Visualisere data i real-time  
