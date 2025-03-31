@@ -2,12 +2,12 @@
 
 ## 🎯 Hvad du lærer:
 
-✔️ Grundlæggende om Modbus TCP-protokollen
-✔️ Installation af MicroPython på ESP32
-✔️ Brug af umodbus (eller andet MicroPython-bibliotek)
-✔️ Læsning og skrivning af holding/input registers
-✔️ Dataopsamling og visualisering i Python
-✔️ Brug af Modbus TCP-server til test (f.eks. på PC)
+✔️ Grundlæggende om Modbus TCP-protokollen  
+✔️ Installation af MicroPython på ESP32   
+✔️ Brug af umodbus (eller andet MicroPython-bibliotek)   
+✔️ Læsning og skrivning af holding/input registers    
+✔️ Dataopsamling og visualisering i Python    
+✔️ Brug af Modbus TCP-server til test (f.eks. på PC)    
 
 ## 🧱 Modulstruktur
 |Modul|	Filnavn|	Indhold|
