@@ -20,7 +20,7 @@ Dette dokument guider dig gennem installationen af Node-RED på din lokale compu
 ---
 
 ## 🔧 Installationstrin
-Følg denne video ![Youtube](https://www.youtube.com/watch?v=S6ykD6SwO7Q) eller Installationstrin her under
+Følg denne video !(https://www.youtube.com/watch?v=S6ykD6SwO7Q) eller Installationstrin her under
 ### 1. Installer Node.js
 Gå til [https://nodejs.org](https://nodejs.org) og hent **LTS-versionen** (anbefalet). Følg installationsguiden og accepter standardindstillinger.
 
