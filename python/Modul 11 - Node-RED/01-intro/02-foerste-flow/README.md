@@ -25,6 +25,7 @@ http://localhost:1880
 ---
 
 ## 🧪 Trin-for-trin: Lav dit første flow
+Se denne [YouTube](https://www.youtube.com/watch?v=hqXbthu5pnw) og følg derefter trin her under:
 
 ### 1. Opret `inject` node
 - Find `inject`-noden i venstre menu
