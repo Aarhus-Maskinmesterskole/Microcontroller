@@ -55,13 +55,21 @@ Dette åbner editoren hvor du kan bygge dine første flows.
 
 ---
 
-## 📦 Installation af udvidelser
-Skift til Node-RED's projektmappe og installer nødvendige noder:
-```bash
-cd ~/.node-red
-npm install node-red-dashboard
-npm install node-red-node-serialport
-```
+📦 Installation af udvidelser
+
+Skift til burger-menuen (☰) øverst til højre i Node-RED-editoren og vælg Manage palette. Herfra kan du:
+
+Klikke på fanen Install
+
+Søge efter de ønskede noder, fx:
+
+node-red-dashboard → giver adgang til brugerfladeelementer (UI)
+
+node-red-node-serialport → anvendes til seriel kommunikation i senere moduler
+
+Klik Install ved siden af den ønskede node
+
+💡 Det anbefales at installere node-red-dashboard allerede nu, mens serialport først er relevant i modul 02.
 
 > 💡 På Windows kan `serialport` kræve installation af drivere som **CH340** eller **CP210x**, afhængigt af din USB-adapter.
 
