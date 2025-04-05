@@ -40,7 +40,7 @@ DB_NUMBER = 1  # Datablock nummer
 START_BYTE = 0  # Startadresse i datablock
 
 # Læs data fra PLC
-data = plc.db_read(DB_NUMBER, START_BYTE, 10)
+data = plc.db_read(DB_NUMBER, START_BYTE, 8)
 
 # Dekod værdier
 real_value = get_real(data, 0)  # Læser en REAL (4 bytes)
