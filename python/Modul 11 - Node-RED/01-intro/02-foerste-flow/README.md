@@ -13,7 +13,7 @@ Dette dokument guider dig trin-for-trin gennem opbygningen af dit første flow i
 ---
 
 ## 📂 Forberedelse
-Sørg for at Node-RED kører på din maskine:
+Gå til *kommando prompt* Sørg for at Node-RED kører på din maskine:
 ```bash
 node-red
 ```
