@@ -1,4 +1,4 @@
-# 🏭 Workshop 5 – Snap7 læsning fra Siemens PLC med Python
+# 🏭 Workshop 6 – Snap7 læsning fra Siemens PLC med Python
 
 ## 🎯 Formål
 I denne afsluttende workshop i modul 06 lærer du at forbinde Node-RED med en Siemens PLC via et Python-script, der benytter Snap7-biblioteket. Målet er at hente en værdi fra PLC’ens datablock og vise den i Node-RED. Dette er et klassisk eksempel på **IT/OT-integration**, hvor du trækker data fra en kontroller (OT) og gør den tilgængelig i visualisering eller videre behandling (IT).
