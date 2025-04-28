@@ -8,10 +8,9 @@
 
 ### 🌟 Formål
 
-Formålet med denne workshop er at lære, hvordan du kan sende strukturerede JSON-data fra Node-RED til Python, og hvordan Python kan bruge pandas-biblioteket til at gemme data i dato-baserede CSV-filer.  
-Du lærer både at sende data via **argumenter** og **stdin**, og du får indsigt i, hvordan man håndterer data robust, så der kun oprettes nye filer når nødvendigt, og hvordan data appender korrekt til eksisterende filer.
+Formålet med denne workshop er at lære, hvordan du kan sende strukturerede JSON-data fra Node-RED til Python, og hvordan Python kan bruge pandas-biblioteket til at gemme data i dato-baserede CSV-filer.
 
-Denne teknik er grundstenen i datalogning og bruges i mange virkelige systemer som f.eks. IoT-enheder, målerdata, batch-logs og produktionsdata.
+Denne teknik bruges i mange virkelige systemer som f.eks. IoT-enheder, målerdata, batch-logs og produktionsdata.
 
 ---
 
@@ -27,14 +26,10 @@ Denne teknik er grundstenen i datalogning og bruges i mange virkelige systemer s
 
 ### 📝 Trin-for-trin guide
 
+#### 1. Opret Python-scriptet `log_to_csv.py`
 
-#### Node-RED setup oversigt
-![Screenshot From 2025-04-27 13-46-57](https://github.com/user-attachments/assets/2504fe9c-ab05-480c-aa54-7e86cb6946a8)
+Gem følgende script i din **scripts/**-mappe:
 
-
-
-#### 1. Opret Python-scriptet `log_to_csv.py` (via argument)
-Opret Python-scriptet log_to_csv.py og gem følgende script i din scripts/-mappe:
 ```python
 #!/usr/bin/env python3
 import sys
@@ -56,17 +51,32 @@ print(f"Data skrevet til {filnavn}")
 
 ---
 
-#### 2. Byg flowet i Node-RED (via argument)
+#### 2. Byg flowet i Node-RED
 
-- **Inject-node**: JSON-payload (fx `{ "temp": 23.4, "humid": 45.2, "gass": 123 }`) da vi simulere sensor værdier
-- 
-![Screenshot From 2025-04-27 18-34-07](https://github.com/user-attachments/assets/b1a46f83-5fd2-472e-88e5-df8848c3e42b)
+##### a) Tilføj en Inject-node
+- Sæt Payload-type til **JSON**.
+- Indtast følgende JSON-data:
 
-- **Function-node**:
+```json
+{
+  "temp": 23.4,
+  "humid": 45.2,
+  "gass": 123
+}
+```
+
+Denne JSON bruges som input til Function-noden.
+
+![Screenshot From 2025-04-27 18-34-07](https://github.com/user-attachments/assets/69e38646-2192-47e5-8329-7b53e2c2dc26)
+
+##### b) Tilføj en Function-node
+- Tilføj følgende kode i Function-noden:
+
 ```javascript
 let now = new Date();
 let ts = now.toISOString().replace('T',' ').split('.')[0];
 
+// Her oprettes et JSON objekt med fire entries: timestamp, temperature, humidity, gass
 let obj = {
     timestamp: ts,
     temperature: msg.payload.temp,
@@ -74,27 +84,44 @@ let obj = {
     gass: msg.payload.gass
 };
 
-msg.payload = `python3 /scripts/log_to_csv.py '${JSON.stringify(obj)}'`;
+let payload = JSON.stringify(obj);
+
+// Byg hele kommandoen korrekt
+msg.payload = `python3 /scripts/log_to_csv.py '${payload}'`;
 return msg;
 ```
 
-![Screenshot From 2025-04-27 13-47-16](https://github.com/user-attachments/assets/60b2536c-1061-41d7-b269-00b08893e3bf)
+**Forklaring step-for-step:**
+- `now` opretter et timestamp.
+- `toISOString().replace('T',' ').split('.')[0]` formaterer timestampet til "ÅÅÅÅ-MM-DD HH:MM:SS".
+- Der oprettes et JSON-objekt med fire entries ud fra de modtagne værdier.
+- Kommandoen til at køre Python-scriptet bygges.
+- Kommandoen sendes videre i flowet.
 
-- **Exec-node**:
-  - Command: `msg.payload`
-  - Slå "Append msg.payload to command" FRA
+![Screenshot From 2025-04-27 13-47-16](https://github.com/user-attachments/assets/e4612653-3792-4fc9-9848-cd31ba8ab5a9)
 
-![Screenshot From 2025-04-27 13-47-25](https://github.com/user-attachments/assets/7039dfbc-afbb-4026-921f-2f978c071537)
+##### c) Tilføj en Exec-node
+- Sæt Command til: `msg.payload`
+- Slå **"Append msg.payload to command" fra**.
+- Output mode: "when the command is complete - exec mode"
+  
+![Screenshot From 2025-04-27 13-47-25](https://github.com/user-attachments/assets/5fdd3bd5-a0a7-403e-9fdb-903b6dd7b8d8)
 
-- **Debug-node**: Forbind stdout
+##### d) Tilføj tre Debug-noder
+- Forbind stdout (1. output), stderr (2. output) og return code (3. output) til separate debug-noder.
+- Ændr evt. navnene til `stdout`, `stderr`, og `returncode` for at holde overblik.
 
-![Screenshot From 2025-04-27 13-47-34](https://github.com/user-attachments/assets/aa481524-0d30-465a-b68e-db5e7adcb49b)
+![Screenshot From 2025-04-27 13-47-25](https://github.com/user-attachments/assets/ab6e0630-8ffb-4674-bd32-2a3ab6768160)
+
+##### e) Flow oversigt
+
+![Screenshot From 2025-04-27 13-46-57](https://github.com/user-attachments/assets/bbf2b1bf-bc21-4877-bb42-857200e5b251)
 
 ---
 
-#### 3. Alternativ: Python via stdin
+#### 3. (Ekstra) Alternativ opsætning: Python via stdin
 
-**Python-script `log_to_csv_stdin.py`:**
+Hvis du i stedet vil sende JSON via stdin, skal du bruge dette Python-script:
 
 ```python
 #!/usr/bin/env python3
@@ -115,32 +142,29 @@ df.to_csv(filnavn, mode="a", index=False, header=skriv_header)
 print(f"Data skrevet til {filnavn}")
 ```
 
-Node-RED flow ændres:
-- **Function-node**: Samme JSON-struktur men åbn payload direkte som JSON-string.
-- **Exec-node**: Kommando `python3 /scripts/log_to_csv_stdin.py`, og hak i "Append payload to stdin".
+Node-RED flowet tilpasses ved at fjerne kommandoen fra Function-noden og i stedet lade Exec-noden modtage data via stdin.
 
 ---
 
 ### 🛠️ Fejlsøgning og tips
 
 - Brug **absolutte stier** til Python-scripts.
-- Debug JSON-string før exec-node.
 - Kontrollér at `pandas` er installeret korrekt.
-- Husk korrekt formattering af JSON (`{"key": value}`).
+- Kontrollér i stderr-debug hvis der sker fejl i exec.
+- Tjek JSON-format hvis Python fejler med JSONDecodeError.
 
 ---
 
 ### ✅ Læringsudbytte
 
-Når du har gennemført denne workshop, kan du:
+Efter denne workshop kan du:
 
 - Sende struktureret JSON-data fra Node-RED til Python
 - Parse JSON-data i Python
-- Oprette daglige CSV-filer med pandas
-- Anvende enten `argv` eller `stdin` til datakommunikation
-- Opbygge robuste flows til datalogning
+- Oprette daglige CSV-filer dynamisk
+- Anvende `argv` eller `stdin` til datakommunikation
+- Debugge flows ved hjælp af flere outputs i exec-noden
 
 ---
 
 🔄 Klar til næste niveau? Fortsæt med **Workshop 6 – Snap7-læsning fra Siemens PLC**!
-
