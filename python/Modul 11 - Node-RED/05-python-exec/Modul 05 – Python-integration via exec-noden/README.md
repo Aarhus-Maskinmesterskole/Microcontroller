@@ -34,7 +34,7 @@ Denne teknik er grundstenen i datalogning og bruges i mange virkelige systemer s
 
 
 #### 1. Opret Python-scriptet `log_to_csv.py` (via argument)
-
+Opret Python-scriptet log_to_csv.py og gem følgende script i din scripts/-mappe:
 ```python
 #!/usr/bin/env python3
 import sys
@@ -54,13 +54,12 @@ df.to_csv(filnavn, mode="a", index=False, header=skriv_header)
 print(f"Data skrevet til {filnavn}")
 ```
 
-Gem i **scripts/**-mappen.
-
 ---
 
 #### 2. Byg flowet i Node-RED (via argument)
 
-- **Inject-node**: JSON-payload (fx `{ "temp": 23.4, "humid": 45.2, "gass": 123 }`)
+- **Inject-node**: JSON-payload (fx `{ "temp": 23.4, "humid": 45.2, "gass": 123 }`) da vi simulere sensor værdier
+- 
 ![Screenshot From 2025-04-27 18-34-07](https://github.com/user-attachments/assets/b1a46f83-5fd2-472e-88e5-df8848c3e42b)
 
 - **Function-node**:
