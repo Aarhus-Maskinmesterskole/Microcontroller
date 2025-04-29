@@ -49,6 +49,40 @@ df.to_csv(filnavn, mode="a", index=False, header=skriv_header)
 print(f"Data skrevet til {filnavn}")
 ```
 
+```python
+#!/usr/bin/env python3
+import sys
+import json
+import os
+from datetime import datetime
+import pandas as pd
+
+
+try:
+    json_input = sys.argv[1]
+except IndexError:
+    sys.exit("Fejl: Der blev ikke givet noget JSON-argument")
+
+data_dict = json.loads(json_input)
+
+
+df = pd.DataFrame([data_dict])              
+
+
+dagens_dato   = datetime.now().strftime("%Y-%m-%d") 
+filnavn = f"{dagens_dato}.csv"
+
+
+skriv_header = not os.path.isfile(filnavn)
+
+df.to_csv(filnavn,
+          mode="a",
+          index=False,
+          header=skriv_header)
+
+print(f"Data skrevet til {filnavn}")
+```
+
 ---
 
 #### 2. Byg flowet i Node-RED
