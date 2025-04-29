@@ -38,25 +38,6 @@ import os
 from datetime import datetime
 import pandas as pd
 
-json_input = sys.argv[1]
-data_dict = json.loads(json_input)
-
-df = pd.DataFrame([data_dict])
-filnavn = f"{datetime.now():%Y-%m-%d}.csv"
-skriv_header = not os.path.isfile(filnavn)
-
-df.to_csv(filnavn, mode="a", index=False, header=skriv_header)
-print(f"Data skrevet til {filnavn}")
-```
-
-```python
-#!/usr/bin/env python3
-import sys
-import json
-import os
-from datetime import datetime
-import pandas as pd
-
 
 try:
     json_input = sys.argv[1]
@@ -106,6 +87,7 @@ Denne JSON bruges som input til Function-noden.
 ##### b) Tilføj en Function-node
 - Tilføj følgende kode i Function-noden:
 
+Hvis du køre Linux:
 ```javascript
 let now = new Date();
 let ts = now.toISOString().replace('T',' ').split('.')[0];
@@ -124,6 +106,33 @@ let payload = JSON.stringify(obj);
 msg.payload = `python3 /scripts/log_to_csv.py '${payload}'`;
 return msg;
 ```
+
+Hvis du køre Windows:
+```javascript
+let now = new Date();
+let ts = now.toISOString().replace('T',' ').split('.')[0];
+
+// Lav JSON-objektet
+let obj = {
+    timestamp: ts,
+    temperature: msg.payload.temp,
+    humidity: msg.payload.humid,
+    gass: msg.payload.gass
+};
+
+// Konverter objektet til en JSON-string
+let payload = JSON.stringify(obj);
+
+// Escape double quotes i payload (MEGET VIGTIGT til cmd / exec)
+payload = payload.replace(/"/g, '\\"');
+
+// Byg kommandoen
+msg.payload = `python3 /scripts/log_to_csv.py "${payload}"`;
+
+return msg;
+```
+
+
 
 **Forklaring step-for-step:**
 - `now` opretter et timestamp.
