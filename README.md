@@ -54,11 +54,11 @@ Dette repository er organiseret i følgende mapper:
 ## ⚙️ **Kom godt i gang**
 1️⃣ **Klon repositoryet**:  
 ```bash
-git clone https://github.com/din-bruger/microcontroller.git
+git clone https://github.com/Aarhus-Maskinmesterskole/Microcontroller.git
 ```
 2️⃣ **Navigér til den relevante mappe**  
 ```bash
-cd microcontroller/python  # Eller cpp/javascript
+cd Microcontroller/python  # Eller cpp/javascript
 ```
 3️⃣ **Følg instruktionerne i README-filen**  
 
